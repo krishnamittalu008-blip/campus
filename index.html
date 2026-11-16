@@ -1,0 +1,185 @@
+Copy this into `index.html`. It contains the home page with three portal choices and all three portal views in one file. Click **All portals** or **Change portal** to return to the choices.
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campusly | College Management</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
+
+:root{--ink:#252532;--muted:#858692;--line:#ececf2;--purple:#6959dc;--bg:#f7f7fa}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+.brand{display:inline-flex;align-items:center;font:800 21px Manrope,sans-serif;letter-spacing:-1px}
+.brand-mark{display:grid;place-items:center;width:30px;height:30px;background:var(--purple);border-radius:9px;color:#fff;margin-right:9px;font:italic 21px Georgia}
+.brand-dot{color:var(--purple)}
+.hidden{display:none!important}
+
+.landing{max-width:1060px;margin:auto;padding:45px 28px}
+.landing>.brand{margin-bottom:72px}
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:1.2px;color:#8e8f9a}
+h1,h2{font-family:Manrope,sans-serif}
+.landing h1,.dashboard h1{font-size:36px;letter-spacing:-1.2px;margin:10px 0}
+.intro{font-size:13px;color:var(--muted);line-height:1.6}
+.portal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px;margin-top:35px}
+.portal-card,.info-card{background:#fff;border:1px solid var(--line);border-radius:14px}
+.portal-card{padding:24px;min-height:228px;display:flex;flex-direction:column;transition:.18s}
+.portal-card:hover{transform:translateY(-3px);border-color:#d7d1fa;box-shadow:0 12px 32px #31256e10}
+.portal-icon,.tile-icon{width:43px;height:43px;border-radius:12px;display:grid;place-items:center;background:#f0edff;color:var(--purple);font-size:20px}
+.teacher .portal-icon,.amber{background:#fff2e8;color:#d98c5f}
+.student .portal-icon,.green{background:#e9f7f0;color:#50a980}
+.portal-card h2,.info-card h2{font-size:17px;margin:16px 0 7px}
+.portal-card p,.info-card p{font-size:11px;color:var(--muted);line-height:1.7;margin:0 0 20px}
+.portal-link{border-top:1px solid #f0f0f4;padding-top:13px;margin-top:auto;color:var(--purple);font-weight:700;font-size:10px}
+.portal-link b{float:right}
+.landing footer{text-align:center;margin-top:45px;color:#a1a1aa;font-size:10px}
+
+.topbar{height:64px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(calc((100vw - 1060px)/2),28px)}
+.small-brand{font-size:18px}
+.small-brand .brand-mark{width:27px;height:27px;font-size:19px}
+.back-link,.change-link{border:0;background:none;font-size:11px;color:var(--purple);font-weight:600}
+.dashboard{max-width:1060px;margin:0 auto;padding:48px 28px}
+.dashboard h1{font-size:30px}
+.dashboard>.intro{margin-top:0}
+.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:27px}
+.info-card{padding:20px;min-height:190px}
+.info-card h2{font-size:15px;margin-top:15px}
+.info-card a{font-size:10px;font-weight:700;color:var(--purple)}
+.notice-box{background:#fff;border:1px solid var(--line);border-radius:12px;margin-top:17px;padding:18px}
+.notice-box b{font-size:11px}
+.notice-box p{font-size:12px;margin:9px 0 4px}
+.notice-box small{font-size:10px;color:var(--muted)}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:25px 0}
+.stat{background:#fff;border:1px solid var(--line);border-radius:11px;padding:16px;display:grid;gap:7px}
+.stat small{font-size:9px;letter-spacing:.7px;color:#92939e;font-weight:700}
+.stat b{font:700 23px Manrope,sans-serif}
+.stat span{font-size:10px;color:var(--muted)}
+
+@media(max-width:700px){
+  .landing{padding:25px 16px}
+  .landing>.brand{margin-bottom:50px}
+  .landing h1,.dashboard h1{font-size:28px}
+  .portal-grid,.info-grid{grid-template-columns:1fr;gap:11px;margin-top:22px}
+  .portal-card{min-height:190px;padding:20px}
+  .topbar{padding:0 16px;height:58px}
+  .dashboard{padding:32px 16px}
+  .info-card{min-height:165px}
+  .stats-row{grid-template-columns:1fr;gap:9px}
+  .stat{grid-template-columns:1fr auto;align-items:center}
+  .stat b{grid-column:2;grid-row:1/3}
+}
+</style>
+</head>
+<body>
+
+<!-- Home page: choose a portal -->
+<main class="landing" id="home">
+  <a class="brand" href="#" onclick="showPage('home');return false">
+    <span class="brand-mark">c</span>campusly<span class="brand-dot">.</span>
+  </a>
+  <p class="eyebrow">NORTHFIELD COLLEGE</p>
+  <h1>Your campus, all in one place.</h1>
+  <p class="intro">Choose a portal to continue.</p>
+
+  <section class="portal-grid">
+    <a class="portal-card college" href="#college" onclick="showPage('college');return false">
+      <span class="portal-icon">▦</span>
+      <h2>College</h2>
+      <p>Manage campus information, announcements, and academic dates.</p>
+      <span class="portal-link">Open college portal <b>→</b></span>
+    </a>
+    <a class="portal-card teacher" href="#teacher" onclick="showPage('teacher');return false">
+      <span class="portal-icon">✎</span>
+      <h2>Teacher</h2>
+      <p>View classes, share updates, and manage assignments.</p>
+      <span class="portal-link">Open teacher portal <b>→</b></span>
+    </a>
+    <a class="portal-card student" href="#student" onclick="showPage('student');return false">
+      <span class="portal-icon">♙</span>
+      <h2>Student</h2>
+      <p>Check your timetable, attendance, notices, and deadlines.</p>
+      <span class="portal-link">Open student portal <b>→</b></span>
+    </a>
+  </section>
+  <footer>Campusly · Northfield College</footer>
+</main>
+
+<!-- College page -->
+<section class="page hidden" id="college">
+  <header class="topbar">
+    <a class="brand small-brand" href="#" onclick="showPage('home');return false"><span class="brand-mark">c</span>campusly<span class="brand-dot">.</span></a>
+    <button class="back-link" onclick="showPage('home')">← All portals</button>
+  </header>
+  <main class="dashboard">
+    <p class="eyebrow">NORTHFIELD COLLEGE · ADMINISTRATION</p>
+    <h1>College portal</h1>
+    <p class="intro">Manage important information and keep your campus community up to date.</p>
+    <section class="info-grid">
+      <article class="info-card"><span class="tile-icon">▤</span><h2>Announcements</h2><p>Publish notices and updates for students and faculty.</p><a href="#announcements">Manage announcements →</a></article>
+      <article class="info-card"><span class="tile-icon amber">▣</span><h2>Academic calendar</h2><p>Keep track of exams, holidays, events, and key dates.</p><a href="#calendar">View academic calendar →</a></article>
+      <article class="info-card"><span class="tile-icon green">♧</span><h2>Campus overview</h2><p>Review college updates and information in one place.</p><a href="#overview">Open overview →</a></article>
+    </section>
+    <section class="notice-box"><b>Recent update</b><p>Mid-semester exam schedule released</p><small>Academic Office · Today</small></section>
+  </main>
+</section>
+
+<!-- Teacher page -->
+<section class="page hidden" id="teacher">
+  <header class="topbar">
+    <a class="brand small-brand" href="#" onclick="showPage('home');return false"><span class="brand-mark">c</span>campusly<span class="brand-dot">.</span></a>
+    <button class="back-link" onclick="showPage('home')">← All portals</button>
+  </header>
+  <main class="dashboard">
+    <p class="eyebrow">NORTHFIELD COLLEGE · FACULTY</p>
+    <h1>Teacher portal</h1>
+    <p class="intro">Your classes and teaching tools for the day.</p>
+    <section class="info-grid">
+      <article class="info-card"><span class="tile-icon">◷</span><h2>Today’s classes</h2><p>10:30 AM · Database Management Systems · Lab 3</p><a href="#classes">View teaching schedule →</a></article>
+      <article class="info-card"><span class="tile-icon amber">▤</span><h2>Assignments</h2><p>Create coursework and keep track of upcoming submissions.</p><a href="#assignments">Manage assignments →</a></article>
+      <article class="info-card"><span class="tile-icon green">✦</span><h2>Class announcements</h2><p>Share class updates with your students.</p><a href="#announcements">Post an announcement →</a></article>
+    </section>
+    <section class="notice-box"><b>Next class</b><p>Database Management Systems</p><small>10:30 AM · Lab 3 · Dr. N. Kulkarni</small></section>
+  </main>
+</section>
+
+<!-- Student page -->
+<section class="page hidden" id="student">
+  <header class="topbar">
+    <a class="brand small-brand" href="#" onclick="showPage('home');return false"><span class="brand-mark">c</span>campusly<span class="brand-dot">.</span></a>
+    <button class="back-link" onclick="showPage('home')">← All portals</button>
+  </header>
+  <main class="dashboard">
+    <p class="eyebrow">NORTHFIELD COLLEGE · STUDENT</p>
+    <h1>Good morning, Aarav</h1>
+    <p class="intro">Here’s what’s happening on campus today.</p>
+    <section class="stats-row">
+      <article class="stat"><small>ATTENDANCE</small><b>92%</b><span>75% required</span></article>
+      <article class="stat"><small>ASSIGNMENTS DUE</small><b>04</b><span>2 due this week</span></article>
+      <article class="stat"><small>NEXT EXAM</small><b>8 days</b><span>Data Structures · Oct 22</span></article>
+    </section>
+    <section class="info-grid">
+      <article class="info-card"><span class="tile-icon">▦</span><h2>Today’s timetable</h2><p>9:00 AM · Data Structures<br>10:30 AM · Database Management</p><a href="#timetable">View timetable →</a></article>
+      <article class="info-card"><span class="tile-icon amber">▤</span><h2>Latest notices</h2><p>Mid-semester exam schedule released.</p><a href="#notices">Read college notices →</a></article>
+      <article class="info-card"><span class="tile-icon green">☑</span><h2>Upcoming deadlines</h2><p>DBMS Project — Phase 1 · Due 16 October</p><a href="#deadlines">View assignments →</a></article>
+    </section>
+    <section class="notice-box"><b>Campusly AI</b><p>Need help with your college information?</p><small>Try: “Mera next practical kab hai?”</small></section>
+  </main>
+</section>
+
+<script>
+function showPage(pageId){
+  document.getElementById('home').classList.toggle('hidden',pageId!=='home');
+  document.querySelectorAll('.page').forEach(function(page){
+    page.classList.toggle('hidden',page.id!==pageId);
+  });
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
+```
