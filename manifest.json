@@ -1,0 +1,27 @@
+{
+  "name": "Campusly - Northfield College",
+  "short_name": "Campusly",
+  "description": "College management portal for students, teachers, and administrators",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f7fa",
+  "theme_color": "#6959dc",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "productivity"],
+  "lang": "en",
+  "dir": "ltr"
+}

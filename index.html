@@ -3,19 +3,48 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Campusly - Northfield College management portal for students, teachers, and administrators">
+<meta name="theme-color" content="#6959dc">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Campusly">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>Campusly | College Management</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
 
-:root{--ink:#252532;--muted:#858692;--line:#ececf2;--purple:#6959dc;--bg:#f7f7fa}
+:root{
+  --ink:#252532;--muted:#858692;--line:#ececf2;--purple:#6959dc;--purple-hover:#5748c9;
+  --bg:#f7f7fa;--card:#fff;--amber:#d98c5f;--amber-bg:#fff2e8;
+  --green:#50a980;--green-bg:#e9f7f0;--focus:#6959dc;
+  --shadow:0 12px 32px #31256e10;--shadow-hover:0 16px 40px #31256e15;
+  --transition:.18s ease;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ink:#f0f0f5;--muted:#a1a1aa;--line:#2d2d3a;--purple:#9b8dff;--purple-hover:#b3aaff;
+    --bg:#18181f;--card:#1f1f2a;--amber:#e8a87a;--amber-bg:#3d2d1a;
+    --green:#6fd1a3;--green-bg:#1a3d2e;--focus:#9b8dff;
+    --shadow:0 12px 32px #00000060;--shadow-hover:0 16px 40px #00000080;
+  }
+}
+[data-theme="light"]{--ink:#252532;--muted:#858692;--line:#ececf2;--purple:#6959dc;--purple-hover:#5748c9;--bg:#f7f7fa;--card:#fff;--amber:#d98c5f;--amber-bg:#fff2e8;--green:#50a980;--green-bg:#e9f7f0;--focus:#6959dc;--shadow:0 12px 32px #31256e10;--shadow-hover:0 16px 40px #31256e15;}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*, *::before, *::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;line-height:1.5;min-height:100vh}
 a{color:inherit;text-decoration:none}
-button{font:inherit;cursor:pointer}
+button{font:inherit;cursor:pointer;border:none;background:none}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:4px}
+.skip-link{position:absolute;top:-100%;left:50%;transform:translateX(-50%);background:var(--purple);color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;z-index:1000}
+.skip-link:focus{top:10px}
 .brand{display:inline-flex;align-items:center;font:800 21px Manrope,sans-serif;letter-spacing:-1px}
 .brand-mark{display:grid;place-items:center;width:30px;height:30px;background:var(--purple);border-radius:9px;color:#fff;margin-right:9px;font:italic 21px Georgia}
 .brand-dot{color:var(--purple)}
 .hidden{display:none!important}
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
 .landing{max-width:1060px;margin:auto;padding:45px 28px}
 .landing>.brand{margin-bottom:72px}
@@ -24,38 +53,64 @@ h1,h2{font-family:Manrope,sans-serif}
 .landing h1,.dashboard h1{font-size:36px;letter-spacing:-1.2px;margin:10px 0}
 .intro{font-size:13px;color:var(--muted);line-height:1.6}
 .portal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px;margin-top:35px}
-.portal-card,.info-card{background:#fff;border:1px solid var(--line);border-radius:14px}
-.portal-card{padding:24px;min-height:228px;display:flex;flex-direction:column;transition:.18s}
-.portal-card:hover{transform:translateY(-3px);border-color:#d7d1fa;box-shadow:0 12px 32px #31256e10}
-.portal-icon,.tile-icon{width:43px;height:43px;border-radius:12px;display:grid;place-items:center;background:#f0edff;color:var(--purple);font-size:20px}
-.teacher .portal-icon,.amber{background:#fff2e8;color:#d98c5f}
-.student .portal-icon,.green{background:#e9f7f0;color:#50a980}
+.portal-card,.info-card{background:var(--card);border:1px solid var(--line);border-radius:14px;transition:var(--transition)}
+.portal-card{padding:24px;min-height:228px;display:flex;flex-direction:column;text-align:left}
+.portal-card:hover,.portal-card:focus-within{transform:translateY(-3px);border-color:#d7d1fa;box-shadow:var(--shadow-hover)}
+.portal-card:active{transform:translateY(-1px)}
+.portal-icon,.tile-icon{width:43px;height:43px;border-radius:12px;display:grid;place-items:center;background:#f0edff;color:var(--purple);font-size:20px;flex-shrink:0}
+.teacher .portal-icon,.amber{background:var(--amber-bg);color:var(--amber)}
+.student .portal-icon,.green{background:var(--green-bg);color:var(--green)}
 .portal-card h2,.info-card h2{font-size:17px;margin:16px 0 7px}
 .portal-card p,.info-card p{font-size:11px;color:var(--muted);line-height:1.7;margin:0 0 20px}
-.portal-link{border-top:1px solid #f0f0f4;padding-top:13px;margin-top:auto;color:var(--purple);font-weight:700;font-size:10px}
-.portal-link b{float:right}
+.portal-link{border-top:1px solid #f0f0f4;padding-top:13px;margin-top:auto;color:var(--purple);font-weight:700;font-size:10px;display:flex;align-items:center;justify-content:space-between}
+.portal-link b{font-size:12px;transition:transform var(--transition)}
+.portal-card:hover .portal-link b,.portal-card:focus-within .portal-link b{transform:translateX(4px)}
 .landing footer{text-align:center;margin-top:45px;color:#a1a1aa;font-size:10px}
 
-.topbar{height:64px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(calc((100vw - 1060px)/2),28px)}
+.topbar{height:64px;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(calc((100vw - 1060px)/2),28px);position:sticky;top:0;z-index:100}
 .small-brand{font-size:18px}
 .small-brand .brand-mark{width:27px;height:27px;font-size:19px}
-.back-link,.change-link{border:0;background:none;font-size:11px;color:var(--purple);font-weight:600}
+.back-link,.change-link{border:0;background:none;font-size:11px;color:var(--purple);font-weight:600;padding:8px 12px;border-radius:8px;transition:var(--transition)}
+.back-link:hover,.change-link:hover{background:var(--line)}
+.theme-toggle{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;background:var(--line);color:var(--ink);font-size:18px;transition:var(--transition)}
+.theme-toggle:hover{background:var(--purple);color:#fff}
+.theme-toggle:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
 .dashboard{max-width:1060px;margin:0 auto;padding:48px 28px}
 .dashboard h1{font-size:30px}
 .dashboard>.intro{margin-top:0}
 .info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:27px}
-.info-card{padding:20px;min-height:190px}
+.info-card{padding:20px;min-height:190px;display:flex;flex-direction:column}
+.info-card:hover,.info-card:focus-within{border-color:#d7d1fa;box-shadow:var(--shadow)}
 .info-card h2{font-size:15px;margin-top:15px}
-.info-card a{font-size:10px;font-weight:700;color:var(--purple)}
-.notice-box{background:#fff;border:1px solid var(--line);border-radius:12px;margin-top:17px;padding:18px}
-.notice-box b{font-size:11px}
+.info-card a{font-size:10px;font-weight:700;color:var(--purple);display:inline-flex;align-items:center;gap:4px;margin-top:auto;transition:var(--transition)}
+.info-card a:hover{color:var(--purple-hover);gap:8px}
+.notice-box{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-top:17px;padding:18px}
+.notice-box b{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
 .notice-box p{font-size:12px;margin:9px 0 4px}
 .notice-box small{font-size:10px;color:var(--muted)}
 .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:25px 0}
-.stat{background:#fff;border:1px solid var(--line);border-radius:11px;padding:16px;display:grid;gap:7px}
-.stat small{font-size:9px;letter-spacing:.7px;color:#92939e;font-weight:700}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:16px;display:grid;gap:7px}
+.stat small{font-size:9px;letter-spacing:.7px;color:#92939e;font-weight:700;text-transform:uppercase}
 .stat b{font:700 23px Manrope,sans-serif}
 .stat span{font-size:10px;color:var(--muted)}
+
+.mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);padding:8px 0;z-index:200;box-shadow:0 -4px 20px #00000010}
+.mobile-nav-inner{display:grid;grid-template-columns:repeat(4,1fr);max-width:1060px;margin:0 auto;padding:0 16px}
+.mobile-nav-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 8px;color:var(--muted);font-size:10px;font-weight:600;border-radius:10px;transition:var(--transition)}
+.mobile-nav-btn.active,.mobile-nav-btn:hover{color:var(--purple);background:var(--line)}
+.mobile-nav-btn svg{width:22px;height:22px}
+
+.toast-container{position:fixed;bottom:24px;right:24px;z-index:1000;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 18px;box-shadow:var(--shadow);display:flex;align-items:center;gap:12px;min-width:280px;max-width:360px;animation:slideIn .3s ease;pointer-events:auto}
+.toast.success{border-left:3px solid var(--green)}
+.toast.error{border-left:3px solid #e85d5d}
+.toast.info{border-left:3px solid var(--purple)}
+@keyframes slideIn{from{opacity:0;transform:translateX(100%)}to{opacity:1;transform:translateX(0)}}
+@keyframes fadeOut{to{opacity:0;transform:translateX(100%)}}
+.toast.hiding{animation:fadeOut .3s ease forwards}
+
+.skeleton{background:linear-gradient(90deg,var(--line) 25%,var(--bg) 50%,var(--line) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
 @media(max-width:700px){
   .landing{padding:25px 16px}
@@ -64,119 +119,289 @@ h1,h2{font-family:Manrope,sans-serif}
   .portal-grid,.info-grid{grid-template-columns:1fr;gap:11px;margin-top:22px}
   .portal-card{min-height:190px;padding:20px}
   .topbar{padding:0 16px;height:58px}
-  .dashboard{padding:32px 16px}
+  .dashboard{padding:32px 16px;padding-bottom:100px}
   .info-card{min-height:165px}
   .stats-row{grid-template-columns:1fr;gap:9px}
   .stat{grid-template-columns:1fr auto;align-items:center}
   .stat b{grid-column:2;grid-row:1/3}
+  .mobile-nav{display:block}
+  .toast-container{left:16px;right:16px;bottom:80px}
+  .toast{min-width:auto;max-width:none}
 }
 </style>
 </head>
 <body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
 
 <!-- Home page: choose a portal -->
-<main class="landing" id="home">
-  <a class="brand" href="#" onclick="showPage('home');return false">
-    <span class="brand-mark">c</span>campusly<span class="brand-dot">.</span>
+<main class="landing" id="home" role="main" aria-label="Portal selection">
+  <a class="brand" href="#home" onclick="showPage('home');return false" aria-label="Campusly home">
+    <span class="brand-mark" aria-hidden="true">c</span>campusly<span class="brand-dot" aria-hidden="true">.</span>
   </a>
   <p class="eyebrow">NORTHFIELD COLLEGE</p>
   <h1>Your campus, all in one place.</h1>
   <p class="intro">Choose a portal to continue.</p>
 
-  <section class="portal-grid">
-    <a class="portal-card college" href="#college" onclick="showPage('college');return false">
-      <span class="portal-icon">▦</span>
+  <section class="portal-grid" aria-label="Available portals">
+    <article class="portal-card college" tabindex="0" role="button" aria-label="College administration portal" data-portal="college" onclick="navigatePortal('college')" onkeydown="handlePortalKeydown(event, 'college')">
+      <span class="portal-icon" aria-hidden="true">▦</span>
       <h2>College</h2>
       <p>Manage campus information, announcements, and academic dates.</p>
-      <span class="portal-link">Open college portal <b>→</b></span>
-    </a>
-    <a class="portal-card teacher" href="#teacher" onclick="showPage('teacher');return false">
-      <span class="portal-icon">✎</span>
+      <span class="portal-link">Open college portal <b aria-hidden="true">→</b></span>
+    </article>
+    <article class="portal-card teacher" tabindex="0" role="button" aria-label="Teacher faculty portal" data-portal="teacher" onclick="navigatePortal('teacher')" onkeydown="handlePortalKeydown(event, 'teacher')">
+      <span class="portal-icon" aria-hidden="true">✎</span>
       <h2>Teacher</h2>
       <p>View classes, share updates, and manage assignments.</p>
-      <span class="portal-link">Open teacher portal <b>→</b></span>
-    </a>
-    <a class="portal-card student" href="#student" onclick="showPage('student');return false">
-      <span class="portal-icon">♙</span>
+      <span class="portal-link">Open teacher portal <b aria-hidden="true">→</b></span>
+    </article>
+    <article class="portal-card student" tabindex="0" role="button" aria-label="Student portal" data-portal="student" onclick="navigatePortal('student')" onkeydown="handlePortalKeydown(event, 'student')">
+      <span class="portal-icon" aria-hidden="true">♙</span>
       <h2>Student</h2>
       <p>Check your timetable, attendance, notices, and deadlines.</p>
-      <span class="portal-link">Open student portal <b>→</b></span>
-    </a>
+      <span class="portal-link">Open student portal <b aria-hidden="true">→</b></span>
+    </article>
   </section>
   <footer>Campusly · Northfield College</footer>
 </main>
 
 <!-- College page -->
-<section class="page hidden" id="college">
-  <header class="topbar">
-    <a class="brand small-brand" href="#" onclick="showPage('home');return false"><span class="brand-mark">c</span>campusly<span class="brand-dot">.</span></a>
-    <button class="back-link" onclick="showPage('home')">← All portals</button>
+<section class="page hidden" id="college" role="main" aria-label="College administration portal">
+  <header class="topbar" role="banner">
+    <a class="brand small-brand" href="#home" onclick="showPage('home');return false" aria-label="Back to portal selection"><span class="brand-mark" aria-hidden="true">c</span>campusly<span class="brand-dot" aria-hidden="true">.</span></a>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button class="back-link" onclick="showPage('home')" aria-label="All portals">← All portals</button>
+      <button class="theme-toggle" id="themeToggleCollege" onclick="toggleTheme()" aria-label="Toggle dark mode" aria-pressed="false"><svg id="themeIconCollege" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
+    </div>
   </header>
-  <main class="dashboard">
+  <div class="dashboard" id="main-content">
     <p class="eyebrow">NORTHFIELD COLLEGE · ADMINISTRATION</p>
     <h1>College portal</h1>
     <p class="intro">Manage important information and keep your campus community up to date.</p>
-    <section class="info-grid">
-      <article class="info-card"><span class="tile-icon">▤</span><h2>Announcements</h2><p>Publish notices and updates for students and faculty.</p><a href="#announcements">Manage announcements →</a></article>
-      <article class="info-card"><span class="tile-icon amber">▣</span><h2>Academic calendar</h2><p>Keep track of exams, holidays, events, and key dates.</p><a href="#calendar">View academic calendar →</a></article>
-      <article class="info-card"><span class="tile-icon green">♧</span><h2>Campus overview</h2><p>Review college updates and information in one place.</p><a href="#overview">Open overview →</a></article>
+    <section class="info-grid" aria-label="College portal sections">
+      <article class="info-card" tabindex="0"><span class="tile-icon" aria-hidden="true">▤</span><h2>Announcements</h2><p>Publish notices and updates for students and faculty.</p><a href="#announcements" onclick="showToast('Announcements module coming soon','info')">Manage announcements <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></article>
+      <article class="info-card" tabindex="0"><span class="tile-icon amber" aria-hidden="true">▣</span><h2>Academic calendar</h2><p>Keep track of exams, holidays, events, and key dates.</p><a href="#calendar" onclick="showToast('Calendar module coming soon','info')">View academic calendar <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></article>
+      <article class="info-card" tabindex="0"><span class="tile-icon green" aria-hidden="true">♧</span><h2>Campus overview</h2><p>Review college updates and information in one place.</p><a href="#overview" onclick="showToast('Overview module coming soon','info')">Open overview <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></article>
     </section>
-    <section class="notice-box"><b>Recent update</b><p>Mid-semester exam schedule released</p><small>Academic Office · Today</small></section>
-  </main>
+    <section class="notice-box" aria-live="polite"><b>Recent update</b><p>Mid-semester exam schedule released</p><small>Academic Office · Today</small></section>
+  </div>
 </section>
 
 <!-- Teacher page -->
-<section class="page hidden" id="teacher">
-  <header class="topbar">
-    <a class="brand small-brand" href="#" onclick="showPage('home');return false"><span class="brand-mark">c</span>campusly<span class="brand-dot">.</span></a>
-    <button class="back-link" onclick="showPage('home')">← All portals</button>
+<section class="page hidden" id="teacher" role="main" aria-label="Teacher faculty portal">
+  <header class="topbar" role="banner">
+    <a class="brand small-brand" href="#home" onclick="showPage('home');return false" aria-label="Back to portal selection"><span class="brand-mark" aria-hidden="true">c</span>campusly<span class="brand-dot" aria-hidden="true">.</span></a>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button class="back-link" onclick="showPage('home')" aria-label="All portals">← All portals</button>
+      <button class="theme-toggle" id="themeToggleTeacher" onclick="toggleTheme()" aria-label="Toggle dark mode" aria-pressed="false"><svg id="themeIconTeacher" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
+    </div>
   </header>
-  <main class="dashboard">
+  <div class="dashboard" id="main-content">
     <p class="eyebrow">NORTHFIELD COLLEGE · FACULTY</p>
     <h1>Teacher portal</h1>
     <p class="intro">Your classes and teaching tools for the day.</p>
-    <section class="info-grid">
-      <article class="info-card"><span class="tile-icon">◷</span><h2>Today’s classes</h2><p>10:30 AM · Database Management Systems · Lab 3</p><a href="#classes">View teaching schedule →</a></article>
-      <article class="info-card"><span class="tile-icon amber">▤</span><h2>Assignments</h2><p>Create coursework and keep track of upcoming submissions.</p><a href="#assignments">Manage assignments →</a></article>
-      <article class="info-card"><span class="tile-icon green">✦</span><h2>Class announcements</h2><p>Share class updates with your students.</p><a href="#announcements">Post an announcement →</a></article>
+    <section class="info-grid" aria-label="Teacher portal sections">
+      <article class="info-card" tabindex="0"><span class="tile-icon" aria-hidden="true">◷</span><h2>Today's classes</h2><p>10:30 AM · Database Management Systems · Lab 3</p><a href="#classes" onclick="showToast('Schedule module coming soon','info')">View teaching schedule <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></article>
+      <article class="info-card" tabindex="0"><span class="tile-icon amber" aria-hidden="true">▤</span><h2>Assignments</h2><p>Create coursework and keep track of upcoming submissions.</p><a href="#assignments" onclick="showToast('Assignments module coming soon','info')">Manage assignments <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></article>
+      <article class="info-card" tabindex="0"><span class="tile-icon green" aria-hidden="true">✦</span><h2>Class announcements</h2><p>Share class updates with your students.</p><a href="#announcements" onclick="showToast('Announcements module coming soon','info')">Post an announcement <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></article>
     </section>
-    <section class="notice-box"><b>Next class</b><p>Database Management Systems</p><small>10:30 AM · Lab 3 · Dr. N. Kulkarni</small></section>
-  </main>
+    <section class="notice-box" aria-live="polite"><b>Next class</b><p>Database Management Systems</p><small>10:30 AM · Lab 3 · Dr. N. Kulkarni</small></section>
+  </div>
 </section>
 
 <!-- Student page -->
-<section class="page hidden" id="student">
-  <header class="topbar">
-    <a class="brand small-brand" href="#" onclick="showPage('home');return false"><span class="brand-mark">c</span>campusly<span class="brand-dot">.</span></a>
-    <button class="back-link" onclick="showPage('home')">← All portals</button>
+<section class="page hidden" id="student" role="main" aria-label="Student portal">
+  <header class="topbar" role="banner">
+    <a class="brand small-brand" href="#home" onclick="showPage('home');return false" aria-label="Back to portal selection"><span class="brand-mark" aria-hidden="true">c</span>campusly<span class="brand-dot" aria-hidden="true">.</span></a>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button class="back-link" onclick="showPage('home')" aria-label="All portals">← All portals</button>
+      <button class="theme-toggle" id="themeToggleStudent" onclick="toggleTheme()" aria-label="Toggle dark mode" aria-pressed="false"><svg id="themeIconStudent" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
+    </div>
   </header>
-  <main class="dashboard">
+  <div class="dashboard" id="main-content">
     <p class="eyebrow">NORTHFIELD COLLEGE · STUDENT</p>
     <h1>Good morning, Aarav</h1>
-    <p class="intro">Here’s what’s happening on campus today.</p>
-    <section class="stats-row">
-      <article class="stat"><small>ATTENDANCE</small><b>92%</b><span>75% required</span></article>
-      <article class="stat"><small>ASSIGNMENTS DUE</small><b>04</b><span>2 due this week</span></article>
-      <article class="stat"><small>NEXT EXAM</small><b>8 days</b><span>Data Structures · Oct 22</span></article>
+    <p class="intro">Here's what's happening on campus today.</p>
+    <section class="stats-row" aria-label="Student statistics">
+      <article class="stat"><small>Attendance</small><b>92%</b><span>75% required</span></article>
+      <article class="stat"><small>Assignments due</small><b>04</b><span>2 due this week</span></article>
+      <article class="stat"><small>Next exam</small><b>8 days</b><span>Data Structures · Oct 22</span></article>
     </section>
-    <section class="info-grid">
-      <article class="info-card"><span class="tile-icon">▦</span><h2>Today’s timetable</h2><p>9:00 AM · Data Structures<br>10:30 AM · Database Management</p><a href="#timetable">View timetable →</a></article>
-      <article class="info-card"><span class="tile-icon amber">▤</span><h2>Latest notices</h2><p>Mid-semester exam schedule released.</p><a href="#notices">Read college notices →</a></article>
-      <article class="info-card"><span class="tile-icon green">☑</span><h2>Upcoming deadlines</h2><p>DBMS Project — Phase 1 · Due 16 October</p><a href="#deadlines">View assignments →</a></article>
+    <section class="info-grid" aria-label="Student portal sections">
+      <article class="info-card" tabindex="0"><span class="tile-icon" aria-hidden="true">▦</span><h2>Today's timetable</h2><p>9:00 AM · Data Structures<br>10:30 AM · Database Management</p><a href="#timetable" onclick="showToast('Timetable module coming soon','info')">View timetable <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></article>
+      <article class="info-card" tabindex="0"><span class="tile-icon amber" aria-hidden="true">▤</span><h2>Latest notices</h2><p>Mid-semester exam schedule released.</p><a href="#notices" onclick="showToast('Notices module coming soon','info')">Read college notices <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></article>
+      <article class="info-card" tabindex="0"><span class="tile-icon green" aria-hidden="true">☑</span><h2>Upcoming deadlines</h2><p>DBMS Project — Phase 1 · Due 16 October</p><a href="#deadlines" onclick="showToast('Deadlines module coming soon','info')">View assignments <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></article>
     </section>
-    <section class="notice-box"><b>Campusly AI</b><p>Need help with your college information?</p><small>Try: “Mera next practical kab hai?”</small></section>
-  </main>
+    <section class="notice-box" aria-live="polite"><b>Campusly AI</b><p>Need help with your college information?</p><small>Try: "Mera next practical kab hai?"</small></section>
+  </div>
 </section>
 
+<!-- Mobile bottom navigation -->
+<nav class="mobile-nav" role="navigation" aria-label="Mobile navigation" id="mobileNav">
+  <div class="mobile-nav-inner">
+    <button class="mobile-nav-btn" data-page="home" onclick="showPage('home')" aria-label="Home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </button>
+    <button class="mobile-nav-btn" data-page="college" onclick="showPage('college')" aria-label="College portal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      College
+    </button>
+    <button class="mobile-nav-btn" data-page="teacher" onclick="showPage('teacher')" aria-label="Teacher portal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Teacher
+    </button>
+    <button class="mobile-nav-btn" data-page="student" onclick="showPage('student')" aria-label="Student portal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Student
+    </button>
+  </div>
+</nav>
+
+<!-- Toast container -->
+<div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
 <script>
+// ===== STATE MANAGEMENT =====
+const STATE_KEY = 'campusly_state';
+const THEME_KEY = 'campusly_theme';
+
+function getInitialState(){
+  const saved = localStorage.getItem(STATE_KEY);
+  const hash = window.location.hash.slice(1);
+  const validPages = ['home','college','teacher','student'];
+
+  if(hash && validPages.includes(hash)) return hash;
+  if(saved && validPages.includes(saved)) return saved;
+  return 'home';
+}
+
+function getInitialTheme(){
+  const saved = localStorage.getItem(THEME_KEY);
+  if(saved) return saved;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+// ===== THEME =====
+function applyTheme(theme){
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem(THEME_KEY, theme);
+  updateThemeIcons(theme === 'dark');
+}
+
+function toggleTheme(){
+  const current = document.documentElement.getAttribute('data-theme') || 'light';
+  applyTheme(current === 'dark' ? 'light' : 'dark');
+}
+
+function updateThemeIcons(isDark){
+  const iconSvg = isDark
+    ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'
+    : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
+  document.querySelectorAll('[id^="themeIcon"]').forEach(el => el.outerHTML = iconSvg);
+  document.querySelectorAll('[id^="themeToggle"]').forEach(btn => btn.setAttribute('aria-pressed', isDark));
+}
+
+// ===== NAVIGATION =====
+let currentPage = getInitialState();
+
 function showPage(pageId){
-  document.getElementById('home').classList.toggle('hidden',pageId!=='home');
-  document.querySelectorAll('.page').forEach(function(page){
-    page.classList.toggle('hidden',page.id!==pageId);
+  const validPages = ['home','college','teacher','student'];
+  if(!validPages.includes(pageId)) pageId = 'home';
+
+  currentPage = pageId;
+  localStorage.setItem(STATE_KEY, pageId);
+  window.location.hash = pageId === 'home' ? '' : pageId;
+
+  document.getElementById('home').classList.toggle('hidden', pageId !== 'home');
+  document.querySelectorAll('.page').forEach(page => {
+    page.classList.toggle('hidden', page.id !== pageId);
   });
-  window.scrollTo(0,0);
+
+  updateMobileNav(pageId);
+  window.scrollTo(0, 0);
+
+  // Focus management for accessibility
+  const mainContent = document.getElementById('main-content');
+  if(mainContent && pageId !== 'home'){
+    mainContent.focus({preventScroll: true});
+  }
+}
+
+function navigatePortal(portal){
+  showPage(portal);
+}
+
+function handlePortalKeydown(event, portal){
+  if(event.key === 'Enter' || event.key === ' '){
+    event.preventDefault();
+    navigatePortal(portal);
+  }
+}
+
+function updateMobileNav(activePage){
+  document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.page === activePage);
+    btn.setAttribute('aria-current', btn.dataset.page === activePage ? 'page' : 'false');
+  });
+}
+
+// ===== TOAST NOTIFICATIONS =====
+function showToast(message, type = 'info'){
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.setAttribute('role', 'alert');
+  toast.innerHTML = `<span>${message}</span><button onclick="dismissToast(this)" aria-label="Dismiss" style="margin-left:auto;background:none;border:none;color:inherit;font-size:18px;line-height:1;cursor:pointer;padding:4px">✕</button>`;
+  container.appendChild(toast);
+
+  setTimeout(() => dismissToast(toast.querySelector('button')), 5000);
+}
+
+function dismissToast(btn){
+  const toast = btn.closest('.toast');
+  if(toast){
+    toast.classList.add('hiding');
+    toast.addEventListener('animationend', () => toast.remove());
+  }
+}
+
+// ===== INITIALIZATION =====
+function init(){
+  applyTheme(getInitialTheme());
+  showPage(currentPage);
+
+  // Handle hash changes (browser back/forward)
+  window.addEventListener('hashchange', () => {
+    const hash = window.location.hash.slice(1);
+    if(hash && ['college','teacher','student','home'].includes(hash)){
+      showPage(hash);
+    }else if(!hash){
+      showPage('home');
+    }
+  });
+
+  // Keyboard shortcuts
+  document.addEventListener('keydown', (e) => {
+    if(e.altKey || e.ctrlKey || e.metaKey) return;
+    const shortcuts = {'1':'college','2':'teacher','3':'student','0':'home','Escape':'home'};
+    if(shortcuts[e.key]){
+      e.preventDefault();
+      showPage(shortcuts[e.key]);
+    }
+  });
+
+  // Register service worker for PWA
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  }
+}
+
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', init);
+}else{
+  init();
 }
 </script>
 </body>
 </html>
-```
