@@ -369,6 +369,8 @@ function dismissToast(btn){
 // ===== INITIALIZATION =====
 function init(){
   applyTheme(getInitialTheme());
+  // Force white theme on load as requested
+  applyTheme('light');
   showPage(currentPage);
 
   // Handle hash changes (browser back/forward)
