@@ -3,407 +3,956 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Campusly - Northfield College management portal for students, teachers, and administrators">
-<meta name="theme-color" content="#6959dc">
+<meta name="description" content="EduCampus - Smarter Campus Management — Empowering Students, Faculty & Administration">
+<meta name="theme-color" content="#0B64F4">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Campusly">
+<meta name="apple-mobile-web-app-title" content="EduCampus">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>Campusly | College Management</title>
+<title>EduCampus | Campus Management System</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
 
-:root{
-  --ink:#252532;--muted:#858692;--line:#ececf2;--purple:#6959dc;--purple-hover:#5748c9;
-  --bg:#f7f7fa;--card:#fff;--amber:#d98c5f;--amber-bg:#fff2e8;
-  --green:#50a980;--green-bg:#e9f7f0;--focus:#6959dc;
-  --shadow:0 12px 32px #31256e10;--shadow-hover:0 16px 40px #31256e15;
-  --transition:.18s ease;
+:root {
+  /* Colors */
+  --primary: #0B64F4;
+  --primary-light: rgba(11, 100, 244, 0.1);
+  --success: #20CB98;
+  --success-light: rgba(32, 203, 152, 0.1);
+  --warning: #F9941F;
+  --warning-light: rgba(249, 148, 31, 0.1);
+  --danger: #EF4343;
+  --danger-light: rgba(239, 67, 67, 0.1);
+  --purple: #7C3AED;
+  --purple-light: rgba(124, 58, 237, 0.1);
+
+  --ink: #131720;
+  --ink-light: #1D2330;
+  --muted: #626D84;
+  --muted-light: #9CA3AF;
+  --border: #E2E6E9;
+  --border-light: rgba(226, 230, 233, 0.3);
+
+  --bg-main: #F9FAFB;
+  --bg-white: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-gradient: linear-gradient(135deg, #131720 0%, #052861 100%);
+  --brand-gradient: linear-gradient(90deg, #0B64F4 0%, #20CB98 100%);
+
+  /* Shadows */
+  --shadow-sm: 0px 2px 8px rgba(19, 23, 32, 0.06);
+  --shadow-md: 0px 4px 16px rgba(19, 23, 32, 0.08);
+  --shadow-lg: 0px 8px 24px rgba(19, 23, 32, 0.1);
+  --shadow-xl: 0px 16px 48px rgba(19, 23, 32, 0.12);
+  --shadow-primary: 0px 8px 32px rgba(11, 100, 244, 0.25);
+
+  /* Radii */
+  --radius-xs: 4px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-full: 9999px;
+
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --ink:#f0f0f5;--muted:#a1a1aa;--line:#2d2d3a;--purple:#9b8dff;--purple-hover:#b3aaff;
-    --bg:#18181f;--card:#1f1f2a;--amber:#e8a87a;--amber-bg:#3d2d1a;
-    --green:#6fd1a3;--green-bg:#1a3d2e;--focus:#9b8dff;
-    --shadow:0 12px 32px #00000060;--shadow-hover:0 16px 40px #00000080;
-  }
+
+[data-theme="dark"] {
+  --bg-main: #0D1117;
+  --bg-white: #161B22;
+  --bg-card: #161B22;
+  --ink: #F0F6FE;
+  --border: #30363D;
+  --muted: #8B949E;
+  --shadow-lg: 0px 8px 24px rgba(0, 0, 0, 0.5);
 }
-[data-theme="light"]{--ink:#252532;--muted:#858692;--line:#ececf2;--purple:#6959dc;--purple-hover:#5748c9;--bg:#f7f7fa;--card:#fff;--amber:#d98c5f;--amber-bg:#fff2e8;--green:#50a980;--green-bg:#e9f7f0;--focus:#6959dc;--shadow:0 12px 32px #31256e10;--shadow-hover:0 16px 40px #31256e15;}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*, *::before, *::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;line-height:1.5;min-height:100vh}
-a{color:inherit;text-decoration:none}
-button{font:inherit;cursor:pointer;border:none;background:none}
-:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:4px}
-.skip-link{position:absolute;top:-100%;left:50%;transform:translateX(-50%);background:var(--purple);color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;z-index:1000}
-.skip-link:focus{top:10px}
-.brand{display:inline-flex;align-items:center;font:800 21px Manrope,sans-serif;letter-spacing:-1px}
-.brand-mark{display:grid;place-items:center;width:30px;height:30px;background:var(--purple);border-radius:9px;color:#fff;margin-right:9px;font:italic 21px Georgia}
-.brand-dot{color:var(--purple)}
-.hidden{display:none!important}
-.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-.landing{max-width:1060px;margin:auto;padding:45px 28px}
-.landing>.brand{margin-bottom:72px}
-.eyebrow{font-size:10px;font-weight:700;letter-spacing:1.2px;color:#8e8f9a}
-h1,h2{font-family:Manrope,sans-serif}
-.landing h1,.dashboard h1{font-size:36px;letter-spacing:-1.2px;margin:10px 0}
-.intro{font-size:13px;color:var(--muted);line-height:1.6}
-.portal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px;margin-top:35px}
-.portal-card,.info-card{background:var(--card);border:1px solid var(--line);border-radius:14px;transition:var(--transition)}
-.portal-card{padding:24px;min-height:228px;display:flex;flex-direction:column;text-align:left}
-.portal-card:hover,.portal-card:focus-within{transform:translateY(-3px);border-color:#d7d1fa;box-shadow:var(--shadow-hover)}
-.portal-card:active{transform:translateY(-1px)}
-.portal-icon,.tile-icon{width:43px;height:43px;border-radius:12px;display:grid;place-items:center;background:#f0edff;color:var(--purple);font-size:20px;flex-shrink:0}
-.teacher .portal-icon,.amber{background:var(--amber-bg);color:var(--amber)}
-.student .portal-icon,.green{background:var(--green-bg);color:var(--green)}
-.portal-card h2,.info-card h2{font-size:17px;margin:16px 0 7px}
-.portal-card p,.info-card p{font-size:11px;color:var(--muted);line-height:1.7;margin:0 0 20px}
-.portal-link{border-top:1px solid #f0f0f4;padding-top:13px;margin-top:auto;color:var(--purple);font-weight:700;font-size:10px;display:flex;align-items:center;justify-content:space-between}
-.portal-link b{font-size:12px;transition:transform var(--transition)}
-.portal-card:hover .portal-link b,.portal-card:focus-within .portal-link b{transform:translateX(4px)}
-.landing footer{text-align:center;margin-top:45px;color:#a1a1aa;font-size:10px}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  color: var(--ink);
+  background-color: var(--bg-main);
+  line-height: 1.5;
+  min-height: 100vh;
+}
 
-.topbar{height:64px;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(calc((100vw - 1060px)/2),28px);position:sticky;top:0;z-index:100}
-.small-brand{font-size:18px}
-.small-brand .brand-mark{width:27px;height:27px;font-size:19px}
-.back-link,.change-link{border:0;background:none;font-size:11px;color:var(--purple);font-weight:600;padding:8px 12px;border-radius:8px;transition:var(--transition)}
-.back-link:hover,.change-link:hover{background:var(--line)}
-.theme-toggle{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;background:var(--line);color:var(--ink);font-size:18px;transition:var(--transition)}
-.theme-toggle:hover{background:var(--purple);color:#fff}
-.theme-toggle:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
-.dashboard{max-width:1060px;margin:0 auto;padding:48px 28px}
-.dashboard h1{font-size:30px}
-.dashboard>.intro{margin-top:0}
-.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:27px}
-.info-card{padding:20px;min-height:190px;display:flex;flex-direction:column}
-.info-card:hover,.info-card:focus-within{border-color:#d7d1fa;box-shadow:var(--shadow)}
-.info-card h2{font-size:15px;margin-top:15px}
-.info-card a{font-size:10px;font-weight:700;color:var(--purple);display:inline-flex;align-items:center;gap:4px;margin-top:auto;transition:var(--transition)}
-.info-card a:hover{color:var(--purple-hover);gap:8px}
-.notice-box{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-top:17px;padding:18px}
-.notice-box b{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
-.notice-box p{font-size:12px;margin:9px 0 4px}
-.notice-box small{font-size:10px;color:var(--muted)}
-.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:25px 0}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:16px;display:grid;gap:7px}
-.stat small{font-size:9px;letter-spacing:.7px;color:#92939e;font-weight:700;text-transform:uppercase}
-.stat b{font:700 23px Manrope,sans-serif}
-.stat span{font-size:10px;color:var(--muted)}
+h1, h2, h3, h4, .poppins { font-family: 'Poppins', sans-serif; margin: 0; }
+a { text-decoration: none; color: inherit; }
+button { font: inherit; cursor: pointer; border: none; background: none; }
 
-.mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);padding:8px 0;z-index:200;box-shadow:0 -4px 20px #00000010}
-.mobile-nav-inner{display:grid;grid-template-columns:repeat(4,1fr);max-width:1060px;margin:0 auto;padding:0 16px}
-.mobile-nav-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 8px;color:var(--muted);font-size:10px;font-weight:600;border-radius:10px;transition:var(--transition)}
-.mobile-nav-btn.active,.mobile-nav-btn:hover{color:var(--purple);background:var(--line)}
-.mobile-nav-btn svg{width:22px;height:22px}
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
 
-.toast-container{position:fixed;bottom:24px;right:24px;z-index:1000;display:flex;flex-direction:column;gap:8px;pointer-events:none}
-.toast{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 18px;box-shadow:var(--shadow);display:flex;align-items:center;gap:12px;min-width:280px;max-width:360px;animation:slideIn .3s ease;pointer-events:auto}
-.toast.success{border-left:3px solid var(--green)}
-.toast.error{border-left:3px solid #e85d5d}
-.toast.info{border-left:3px solid var(--purple)}
-@keyframes slideIn{from{opacity:0;transform:translateX(100%)}to{opacity:1;transform:translateX(0)}}
-@keyframes fadeOut{to{opacity:0;transform:translateX(100%)}}
-.toast.hiding{animation:fadeOut .3s ease forwards}
+.hidden { display: none !important; }
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); border: 0;
+}
 
-.skeleton{background:linear-gradient(90deg,var(--line) 25%,var(--bg) 50%,var(--line) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+/* Header */
+.main-header {
+  height: 80px;
+  background: var(--bg-white);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: var(--transition);
+}
+.header-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.brand-logo {
+  width: 40px;
+  height: 40px;
+  background: var(--brand-gradient);
+  border-radius: var(--radius-sm);
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+  font-style: italic;
+}
+.brand-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.main-nav {
+  display: flex;
+  gap: 32px;
+}
+.nav-link {
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--muted);
+  transition: var(--transition);
+}
+.nav-link:hover, .nav-link.active {
+  color: var(--primary);
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.btn-login {
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 14px;
+  transition: var(--transition);
+}
+.btn-login:hover {
+  background: #0952cc;
+  box-shadow: var(--shadow-primary);
+}
 
-@media(max-width:700px){
-  .landing{padding:25px 16px}
-  .landing>.brand{margin-bottom:50px}
-  .landing h1,.dashboard h1{font-size:28px}
-  .portal-grid,.info-grid{grid-template-columns:1fr;gap:11px;margin-top:22px}
-  .portal-card{min-height:190px;padding:20px}
-  .topbar{padding:0 16px;height:58px}
-  .dashboard{padding:32px 16px;padding-bottom:100px}
-  .info-card{min-height:165px}
-  .stats-row{grid-template-columns:1fr;gap:9px}
-  .stat{grid-template-columns:1fr auto;align-items:center}
-  .stat b{grid-column:2;grid-row:1/3}
-  .mobile-nav{display:block}
-  .toast-container{left:16px;right:16px;bottom:80px}
-  .toast{min-width:auto;max-width:none}
+/* Hero Section */
+.hero {
+  padding: 100px 0;
+  background: var(--bg-gradient);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(11, 100, 244, 0.15) 0%, transparent 50%);
+  pointer-events: none;
+}
+.hero-content {
+  max-width: 800px;
+  position: relative;
+  z-index: 1;
+}
+.badge-promo {
+  display: inline-flex;
+  padding: 6px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+.hero h1 {
+  font-size: 72px;
+  line-height: 1;
+  letter-spacing: -2px;
+  margin-bottom: 24px;
+}
+.hero p {
+  font-size: 24px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 40px;
+}
+.hero-btns {
+  display: flex;
+  gap: 16px;
+}
+.btn-primary {
+  background: #fff;
+  color: var(--primary);
+  padding: 14px 32px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 16px;
+}
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 14px 32px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Stats */
+.stats {
+  padding: 60px 0;
+  background: var(--bg-white);
+  border-bottom: 1px solid var(--border);
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
+}
+.stat-item h3 { font-size: 36px; font-weight: 700; color: var(--primary); }
+.stat-item p { font-size: 14px; color: var(--muted); margin-top: 4px; }
+
+/* Sections Styling */
+section { padding: 80px 0; }
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 40px;
+}
+.section-title h2 { font-size: 36px; font-weight: 700; }
+.section-title p { color: var(--muted); margin-top: 8px; }
+
+/* Announcement Cards */
+.announcements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+.ann-card {
+  background: var(--bg-white);
+  padding: 32px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  transition: var(--transition);
+}
+.ann-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.ann-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: var(--radius-xs);
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.ann-card h3 { font-size: 18px; margin-bottom: 8px; }
+.ann-date { font-size: 12px; color: var(--muted); }
+
+/* Portal Cards Landing */
+.portal-landing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.portal-landing-card {
+  background: var(--bg-white);
+  padding: 40px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  text-align: center;
+  transition: var(--transition);
+}
+.portal-landing-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-xl); border-color: var(--primary); }
+.portal-icon-wrapper {
+  width: 64px;
+  height: 64px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: var(--radius-md);
+  display: grid;
+  place-items: center;
+  font-size: 32px;
+  margin: 0 auto 24px;
+}
+.portal-landing-card h3 { font-size: 24px; margin-bottom: 12px; }
+.portal-landing-card p { color: var(--muted); font-size: 16px; margin-bottom: 32px; }
+.btn-portal {
+  display: inline-block;
+  padding: 12px 32px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+}
+
+/* Footer */
+.main-footer {
+  background: var(--ink);
+  color: #fff;
+  padding: 80px 0 40px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr repeat(3, 1fr);
+  gap: 60px;
+  margin-bottom: 60px;
+}
+.footer-brand h3 { font-size: 24px; margin-bottom: 20px; }
+.footer-brand p { color: rgba(255, 255, 255, 0.6); line-height: 1.8; }
+.footer-col h4 { font-size: 18px; margin-bottom: 24px; }
+.footer-links { list-style: none; padding: 0; margin: 0; }
+.footer-links li { margin-bottom: 12px; }
+.footer-links a { color: rgba(255, 255, 255, 0.6); transition: var(--transition); }
+.footer-links a:hover { color: #fff; }
+.footer-bottom {
+  padding-top: 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 14px;
+}
+
+/* Portal Layouts */
+.portal-page { padding-bottom: 100px; }
+.portal-header { padding: 40px 0; background: var(--bg-white); border-bottom: 1px solid var(--border); }
+.portal-welcome { display: flex; justify-content: space-between; align-items: center; }
+.user-info h1 { font-size: 36px; margin-bottom: 8px; }
+.user-info p { color: var(--muted); }
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+  margin-top: 40px;
+}
+.card {
+  background: var(--bg-white);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+.col-8 { grid-column: span 8; }
+.col-4 { grid-column: span 4; }
+.col-6 { grid-column: span 6; }
+.col-12 { grid-column: span 12; }
+
+/* Tables */
+.data-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+.data-table th { text-align: left; padding: 12px; color: var(--muted); font-size: 14px; border-bottom: 1px solid var(--border); }
+.data-table td { padding: 16px 12px; border-bottom: 1px solid var(--border-light); font-size: 14px; }
+
+/* Status Badges */
+.badge { padding: 4px 12px; border-radius: var(--radius-xs); font-size: 12px; font-weight: 600; }
+.badge-success { background: var(--success-light); color: var(--success); }
+.badge-warning { background: var(--warning-light); color: var(--warning); }
+.badge-danger { background: var(--danger-light); color: var(--danger); }
+
+/* Quick Actions */
+.action-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.action-btn {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  font-weight: 600;
+  transition: var(--transition);
+}
+.action-btn:hover { background: var(--primary-light); color: var(--primary); border-color: var(--primary); }
+
+/* Skip Link */
+.skip-link {
+  position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+  background: var(--primary); color: #fff; padding: 10px 20px; z-index: 2000;
+  border-radius: 0 0 8px 8px;
+}
+.skip-link:focus { top: 0; }
+
+@media (max-width: 1024px) {
+  .hero h1 { font-size: 48px; }
+  .portal-landing-grid { grid-template-columns: 1fr; }
+  .col-8, .col-4, .col-6 { grid-column: span 12; }
 }
 </style>
 </head>
 <body>
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
-<!-- Home page: choose a portal -->
-<main class="landing" id="home" role="main" aria-label="Portal selection">
-  <a class="brand" href="#home" onclick="showPage('home');return false" aria-label="Campusly home">
-    <span class="brand-mark" aria-hidden="true">c</span>campusly<span class="brand-dot" aria-hidden="true">.</span>
-  </a>
-  <p class="eyebrow">NORTHFIELD COLLEGE</p>
-  <h1>Your campus, all in one place.</h1>
-  <p class="intro">Choose a portal to continue.</p>
+<!-- Main Navigation (Home Only) -->
+<header class="main-header" id="siteHeader">
+  <div class="container header-inner">
+    <a href="#home" class="brand" onclick="showPage('home');return false">
+      <div class="brand-logo">c</div>
+      <div class="brand-name">EduCampus</div>
+    </a>
+    <nav class="main-nav">
+      <a href="#home" class="nav-link active">Home</a>
+      <a href="#student" class="nav-link" onclick="showPage('student');return false">Student</a>
+      <a href="#faculty" class="nav-link" onclick="showPage('faculty');return false">Faculty</a>
+      <a href="#admin" class="nav-link" onclick="showPage('admin');return false">Admin</a>
+      <a href="#events" class="nav-link" onclick="showPage('events');return false">Events</a>
+      <a href="#library" class="nav-link" onclick="showPage('library');return false">Library</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn-login" onclick="showToast('Login system integration pending', 'info')">Login</button>
+    </div>
+  </div>
+</header>
 
-  <section class="portal-grid" aria-label="Available portals">
-    <article class="portal-card college" tabindex="0" role="button" aria-label="College administration portal" data-portal="college" onclick="navigatePortal('college')" onkeydown="handlePortalKeydown(event, 'college')">
-      <span class="portal-icon" aria-hidden="true">▦</span>
-      <h2>College</h2>
-      <p>Manage campus information, announcements, and academic dates.</p>
-      <span class="portal-link">Open college portal <b aria-hidden="true">→</b></span>
-    </article>
-    <article class="portal-card teacher" tabindex="0" role="button" aria-label="Teacher faculty portal" data-portal="teacher" onclick="navigatePortal('teacher')" onkeydown="handlePortalKeydown(event, 'teacher')">
-      <span class="portal-icon" aria-hidden="true">✎</span>
-      <h2>Teacher</h2>
-      <p>View classes, share updates, and manage assignments.</p>
-      <span class="portal-link">Open teacher portal <b aria-hidden="true">→</b></span>
-    </article>
-    <article class="portal-card student" tabindex="0" role="button" aria-label="Student portal" data-portal="student" onclick="navigatePortal('student')" onkeydown="handlePortalKeydown(event, 'student')">
-      <span class="portal-icon" aria-hidden="true">♙</span>
-      <h2>Student</h2>
-      <p>Check your timetable, attendance, notices, and deadlines.</p>
-      <span class="portal-link">Open student portal <b aria-hidden="true">→</b></span>
-    </article>
-  </section>
-  <footer>Campusly · Northfield College</footer>
+<main id="main-content">
+  <!-- Landing Page -->
+  <div id="home-page" class="page">
+    <section class="hero">
+      <div class="container hero-content">
+        <div class="badge-promo">Admissions Open 2025-26</div>
+        <h1>Welcome to EduCampus</h1>
+        <p>Smarter Campus Management — Empowering Students, Faculty & Administration with Unified Digital Solutions</p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="showPage('student')">Explore Portals</button>
+          <button class="btn-secondary" onclick="showToast('Application portal coming soon', 'info')">Apply Now</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div class="container stats-grid">
+        <div class="stat-item"><h3>15,000+</h3><p>Students Enrolled</p></div>
+        <div class="stat-item"><h3>500+</h3><p>Faculty Members</p></div>
+        <div class="stat-item"><h3>50+</h3><p>Departments</p></div>
+        <div class="stat-item"><h3>95%</h3><p>Placement Rate</p></div>
+      </div>
+    </section>
+
+    <section class="announcements">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-title">
+            <h2>Latest Announcements</h2>
+            <p>Stay updated with the latest campus news</p>
+          </div>
+          <button class="btn-link" style="color: var(--primary); font-weight: 600;">View All →</button>
+        </div>
+        <div class="announcements-grid">
+          <div class="ann-card">
+            <span class="ann-tag">Academic</span>
+            <h3>Semester Registration Open</h3>
+            <p class="ann-date">Dec 28, 2024</p>
+          </div>
+          <div class="ann-card">
+            <span class="ann-tag">Sports</span>
+            <h3>Annual Sports Meet 2025</h3>
+            <p class="ann-date">Jan 15, 2025</p>
+          </div>
+          <div class="ann-card">
+            <span class="ann-tag">Notice</span>
+            <h3>Library Extended Hours</h3>
+            <p class="ann-date">Dec 20, 2024</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="portals" style="background: var(--bg-main);">
+      <div class="container">
+        <div class="section-header" style="justify-content: center; text-align: center;">
+          <div class="section-title">
+            <h2>Choose Your Portal</h2>
+            <p>Access specialized tools tailored for your role</p>
+          </div>
+        </div>
+        <div class="portal-landing-grid">
+          <div class="portal-landing-card">
+            <div class="portal-icon-wrapper">♙</div>
+            <h3>Student Portal</h3>
+            <p>Access attendance, fees, library & events in one dashboard.</p>
+            <button class="btn-portal" onclick="showPage('student')">Access Portal</button>
+          </div>
+          <div class="portal-landing-card">
+            <div class="portal-icon-wrapper">✎</div>
+            <h3>Faculty Portal</h3>
+            <p>Manage classes, grades, attendance & event approvals.</p>
+            <button class="btn-portal" onclick="showPage('faculty')">Access Portal</button>
+          </div>
+          <div class="portal-landing-card">
+            <div class="portal-icon-wrapper">▦</div>
+            <h3>Admin Portal</h3>
+            <p>Complete campus management system for administrators.</p>
+            <button class="btn-portal" onclick="showPage('admin')">Access Portal</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="main-footer">
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <h3>EduCampus</h3>
+          <p>Empowering education through technology. A complete college management system designed for modern institutions.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="#">Admissions</a></li>
+            <li><a href="#">Courses</a></li>
+            <li><a href="#">Campus Tour</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Portals</h4>
+          <ul class="footer-links">
+            <li><a href="#" onclick="showPage('student');return false">Student Portal</a></li>
+            <li><a href="#" onclick="showPage('faculty');return false">Faculty Portal</a></li>
+            <li><a href="#" onclick="showPage('admin');return false">Admin Portal</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <p style="color: rgba(255,255,255,0.6); font-size: 14px; margin-bottom: 8px;">123 University Road, City, State</p>
+          <p style="color: rgba(255,255,255,0.6); font-size: 14px; margin-bottom: 8px;">info@educampus.edu</p>
+          <p style="color: rgba(255,255,255,0.6); font-size: 14px;">+1 (234) 567-8900</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="container">© 2024 EduCampus. All rights reserved.</div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Student Portal -->
+  <div id="student-page" class="page hidden portal-page">
+    <div class="portal-header">
+      <div class="container portal-welcome">
+        <div class="user-info">
+          <p style="text-transform: uppercase; letter-spacing: 1px; font-weight: 700; font-size: 12px; color: var(--primary);">Student Portal</p>
+          <h1>Welcome, Rahul Kumar</h1>
+          <p>B.Tech CSE | Semester 6 | Roll No: CS2021045</p>
+        </div>
+        <div class="portal-actions">
+          <button class="btn-secondary" style="color: var(--ink);" onclick="showPage('home')">← Home</button>
+        </div>
+      </div>
+    </div>
+    <div class="container dashboard-grid">
+      <div class="card col-8">
+        <h3>Attendance Overview</h3>
+        <table class="data-table">
+          <thead>
+            <tr><th>Subject</th><th>Present</th><th>Total</th><th>Percentage</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Mathematics</td><td>42</td><td>48</td><td>87.5%</td><td><span class="badge badge-success">Good</span></td></tr>
+            <tr><td>Physics</td><td>38</td><td>45</td><td>84.4%</td><td><span class="badge badge-success">Good</span></td></tr>
+            <tr><td>Chemistry</td><td>40</td><td>44</td><td>90.9%</td><td><span class="badge badge-success">Good</span></td></tr>
+            <tr><td>Computer Science</td><td>35</td><td>40</td><td>87.5%</td><td><span class="badge badge-success">Good</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card col-4">
+        <h3>Quick Actions</h3>
+        <div class="action-grid" style="margin-top: 20px;">
+          <button class="action-btn">Timetable</button>
+          <button class="action-btn">Results</button>
+          <button class="action-btn" onclick="showPage('library')">Library</button>
+          <button class="action-btn" onclick="showPage('finance')">Pay Fees</button>
+        </div>
+        <h3 style="margin-top: 32px;">Fee Summary</h3>
+        <div style="margin-top: 16px;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <span>Total Fees</span><strong>₹1,25,000</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <span>Paid</span><strong style="color: var(--success);">₹75,000</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 24px;">
+            <span>Pending</span><strong style="color: var(--danger);">₹50,000</strong>
+          </div>
+          <button class="btn-login" style="width: 100%;" onclick="showPage('finance')">Pay Now</button>
+        </div>
+      </div>
+      <div class="card col-6">
+        <h3>Notifications</h3>
+        <div style="margin-top: 20px;">
+          <div style="padding: 12px 0; border-bottom: 1px solid var(--border-light);">
+            <p style="margin-bottom: 4px;">Assignment submission deadline tomorrow</p>
+            <small style="color: var(--muted);">2 hours ago</small>
+          </div>
+          <div style="padding: 12px 0; border-bottom: 1px solid var(--border-light);">
+            <p style="margin-bottom: 4px;">New grades posted for Physics</p>
+            <small style="color: var(--muted);">5 hours ago</small>
+          </div>
+        </div>
+      </div>
+      <div class="card col-6">
+        <h3>Upcoming Events</h3>
+        <div style="margin-top: 20px;">
+          <div style="display: flex; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border-light);">
+            <div style="text-align: center; width: 50px;">
+              <small>JAN</small><br><strong>15</strong>
+            </div>
+            <div style="flex: 1;"><strong>Sports Day</strong></div>
+            <span class="badge badge-success">Registered</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Faculty Portal -->
+  <div id="faculty-page" class="page hidden portal-page">
+    <div class="portal-header">
+      <div class="container portal-welcome">
+        <div class="user-info">
+          <p style="text-transform: uppercase; letter-spacing: 1px; font-weight: 700; font-size: 12px; color: var(--primary);">Faculty Portal</p>
+          <h1>Welcome, Dr. Priya Sharma</h1>
+          <p>Associate Professor | Computer Science Department</p>
+        </div>
+        <div class="portal-actions">
+          <button class="btn-secondary" style="color: var(--ink);" onclick="showPage('home')">← Home</button>
+        </div>
+      </div>
+    </div>
+    <div class="container dashboard-grid">
+      <div class="card col-8">
+        <h3>Today's Classes</h3>
+        <div style="margin-top: 20px;">
+          <div style="display: flex; align-items: center; gap: 24px; padding: 20px; border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 16px;">
+            <div style="text-align: center; width: 80px;">
+              <strong style="font-size: 20px;">9:00</strong><br><small>AM</small>
+            </div>
+            <div style="flex: 1;">
+              <h4 style="font-size: 18px;">Data Structures</h4>
+              <p style="font-size: 14px; color: var(--muted);">CSE-3A | Room 301 | 45 students</p>
+            </div>
+            <button class="btn-login">Take Attendance</button>
+          </div>
+          <div style="display: flex; align-items: center; gap: 24px; padding: 20px; border: 1px solid var(--border); border-radius: var(--radius-sm);">
+            <div style="text-align: center; width: 80px;">
+              <strong style="font-size: 20px;">11:00</strong><br><small>AM</small>
+            </div>
+            <div style="flex: 1;">
+              <h4 style="font-size: 18px;">Algorithms</h4>
+              <p style="font-size: 14px; color: var(--muted);">CSE-3B | Room 302 | 42 students</p>
+            </div>
+            <button class="btn-login">Take Attendance</button>
+          </div>
+        </div>
+      </div>
+      <div class="card col-4">
+        <h3>Performance Overview</h3>
+        <div class="stats-row" style="grid-template-columns: 1fr; gap: 16px; margin: 20px 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span>Avg. Attendance</span><strong>85%</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span>Courses</span><strong>4</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span>Students</span><strong>175</strong>
+          </div>
+        </div>
+        <h3>Pending Tasks</h3>
+        <div style="margin-top: 16px;">
+          <div style="margin-bottom: 12px;"><input type="checkbox"> Grade Mid-term Papers</div>
+          <div style="margin-bottom: 12px;"><input type="checkbox"> Upload Lecture Notes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Portal -->
+  <div id="admin-page" class="page hidden portal-page">
+    <div class="portal-header">
+      <div class="container portal-welcome">
+        <div class="user-info">
+          <p style="text-transform: uppercase; letter-spacing: 1px; font-weight: 700; font-size: 12px; color: var(--primary);">Admin Portal</p>
+          <h1>Admin Dashboard</h1>
+          <p>Complete Campus Management System</p>
+        </div>
+        <div class="portal-actions">
+          <button class="btn-secondary" style="color: var(--ink);" onclick="showPage('home')">← Home</button>
+        </div>
+      </div>
+    </div>
+    <div class="container dashboard-grid">
+      <div class="card col-3" style="grid-column: span 3;">
+        <small>Total Students</small>
+        <h3 style="font-size: 24px;">15,234</h3>
+        <span style="color: var(--success); font-size: 12px;">+5.2% vs last year</span>
+      </div>
+      <div class="card col-3" style="grid-column: span 3;">
+        <small>Faculty Members</small>
+        <h3 style="font-size: 24px;">523</h3>
+        <span style="color: var(--success); font-size: 12px;">+2.1% vs last year</span>
+      </div>
+      <div class="card col-3" style="grid-column: span 3;">
+        <small>Fee Collected</small>
+        <h3 style="font-size: 24px;">₹4.2Cr</h3>
+        <span style="color: var(--success); font-size: 12px;">+12.5% vs last year</span>
+      </div>
+      <div class="card col-3" style="grid-column: span 3;">
+        <small>Library Books</small>
+        <h3 style="font-size: 24px;">45,000</h3>
+        <span style="color: var(--success); font-size: 12px;">+3.8% vs last year</span>
+      </div>
+      <div class="card col-8">
+        <h3>Department Overview</h3>
+        <table class="data-table">
+          <thead>
+            <tr><th>Department</th><th>Faculty</th><th>Students</th><th>Ratio</th><th>Actions</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Computer Science</td><td>45</td><td>2,400</td><td>1:53</td><td><button style="color: var(--primary);">Details</button></td></tr>
+            <tr><td>Electronics</td><td>38</td><td>1,800</td><td>1:47</td><td><button style="color: var(--primary);">Details</button></td></tr>
+            <tr><td>Mechanical</td><td>42</td><td>2,100</td><td>1:50</td><td><button style="color: var(--primary);">Details</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card col-4">
+        <h3>Recent Admissions</h3>
+        <div style="margin-top: 16px;">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--border); display: grid; place-items: center;">A</div>
+            <div><strong>Arun Kumar</strong><br><small>B.Tech CSE</small></div>
+            <span class="badge badge-success" style="margin-left: auto;">verified</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--border); display: grid; place-items: center;">P</div>
+            <div><strong>Priya Singh</strong><br><small>B.Tech ECE</small></div>
+            <span class="badge badge-warning" style="margin-left: auto;">pending</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Events Page -->
+  <div id="events-page" class="page hidden portal-page">
+    <div class="portal-header" style="background: var(--bg-gradient); color: #fff;">
+      <div class="container portal-welcome">
+        <div class="user-info">
+          <h1>Campus Events</h1>
+          <p style="color: rgba(255,255,255,0.7);">Experience the vibrant campus life through our flagship events</p>
+        </div>
+        <button class="btn-secondary" onclick="showPage('home')">← Home</button>
+      </div>
+    </div>
+    <div class="container" style="margin-top: 40px;">
+      <div class="dashboard-grid">
+        <div class="card col-12" style="display: flex; gap: 32px; align-items: center;">
+          <div style="flex: 1;">
+            <span class="badge badge-success">Registration Open</span>
+            <h2 style="font-size: 32px; margin: 12px 0;">Provenance 2025</h2>
+            <p>February 10-12, 2025 | Main Campus</p>
+            <p style="margin-top: 16px;">Annual cultural extravaganza featuring music, dance, drama, art exhibitions, and celebrity performances.</p>
+            <div style="margin-top: 24px;">
+              <button class="btn-login">Register Now</button>
+              <button class="btn-secondary" style="color: var(--ink); margin-left: 12px;">View Details</button>
+            </div>
+          </div>
+          <div style="width: 400px; height: 250px; background: var(--border); border-radius: var(--radius-md);"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Library Page -->
+  <div id="library-page" class="page hidden portal-page">
+    <div class="portal-header">
+      <div class="container portal-welcome">
+        <div class="user-info">
+          <h1>Digital Library</h1>
+          <p>Access thousands of books and digital resources</p>
+        </div>
+        <button class="btn-secondary" style="color: var(--ink);" onclick="showPage('home')">← Home</button>
+      </div>
+    </div>
+    <div class="container" style="margin-top: 40px;">
+      <div class="card col-12" style="margin-bottom: 32px;">
+        <input type="text" placeholder="Search by title, author, ISBN..." style="width: 100%; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 16px;">
+      </div>
+      <div class="dashboard-grid" style="grid-template-columns: repeat(4, 1fr);">
+        <div class="card">
+          <div style="height: 200px; background: var(--border); border-radius: var(--radius-sm); margin-bottom: 16px;"></div>
+          <h4>Introduction to Algorithms</h4>
+          <p style="font-size: 12px; color: var(--muted);">Thomas H. Cormen</p>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px;">
+            <span style="color: var(--success); font-size: 12px;">Available</span>
+            <button class="btn-login" style="padding: 6px 12px; font-size: 12px;">Issue</button>
+          </div>
+        </div>
+        <div class="card">
+          <div style="height: 200px; background: var(--border); border-radius: var(--radius-sm); margin-bottom: 16px;"></div>
+          <h4>Database System Concepts</h4>
+          <p style="font-size: 12px; color: var(--muted);">Abraham Silberschatz</p>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px;">
+            <span style="color: var(--success); font-size: 12px;">Available</span>
+            <button class="btn-login" style="padding: 6px 12px; font-size: 12px;">Issue</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Finance Page -->
+  <div id="finance-page" class="page hidden portal-page">
+    <div class="portal-header">
+      <div class="container portal-welcome">
+        <div class="user-info">
+          <h1>Fee Management</h1>
+          <p>View and pay your academic fees</p>
+        </div>
+        <button class="btn-secondary" style="color: var(--ink);" onclick="showPage('home')">← Home</button>
+      </div>
+    </div>
+    <div class="container dashboard-grid">
+      <div class="card col-8">
+        <h3>Fee Structure - Semester 6</h3>
+        <table class="data-table">
+          <thead>
+            <tr><th>Component</th><th>Amount</th><th>Status</th><th>Action</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Tuition Fee</td><td>₹75,000</td><td><span class="badge badge-success">Paid</span></td><td>-</td></tr>
+            <tr><td>Lab Fee</td><td>₹15,000</td><td><span class="badge badge-success">Paid</span></td><td>-</td></tr>
+            <tr><td>Exam Fee</td><td>₹8,000</td><td><span class="badge badge-warning">Pending</span></td><td><button style="color: var(--primary);">Pay</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card col-4">
+        <h3>Payment Summary</h3>
+        <div style="margin-top: 20px;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+            <span>Pending Amount</span><strong style="font-size: 24px;">₹55,000</strong>
+          </div>
+          <p style="color: var(--danger); font-size: 12px; margin-bottom: 24px;">Due by Jan 15, 2025</p>
+          <button class="btn-login" style="width: 100%;">Pay All Pending</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Page -->
+  <div id="profile-page" class="page hidden portal-page">
+    <div class="portal-header">
+      <div class="container portal-welcome">
+        <div class="user-info">
+          <h1>My Profile</h1>
+          <p>Manage your account settings</p>
+        </div>
+        <button class="btn-secondary" style="color: var(--ink);" onclick="showPage('home')">← Home</button>
+      </div>
+    </div>
+    <div class="container dashboard-grid">
+      <div class="card col-4">
+        <div style="text-align: center; padding: 20px 0;">
+          <div style="width: 120px; height: 120px; border-radius: 50%; background: var(--border); margin: 0 auto 16px;"></div>
+          <h3>Rahul Kumar</h3>
+          <p>B.Tech CSE | Semester 6</p>
+        </div>
+        <div style="border-top: 1px solid var(--border); padding-top: 20px;">
+          <p><strong>Email:</strong> rahul.kumar@educampus.edu</p>
+          <p><strong>Phone:</strong> +91 98765 43210</p>
+        </div>
+      </div>
+      <div class="card col-8">
+        <h3>Account Settings</h3>
+        <div style="margin-top: 24px;">
+          <button class="action-btn" style="width: 100%; text-align: left; margin-bottom: 12px;">Change Password</button>
+          <button class="action-btn" style="width: 100%; text-align: left; margin-bottom: 12px;">Privacy Settings</button>
+          <button class="action-btn" style="width: 100%; text-align: left; color: var(--danger);">Logout</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </main>
-
-<!-- College page -->
-<section class="page hidden" id="college" role="main" aria-label="College administration portal">
-  <header class="topbar" role="banner">
-    <a class="brand small-brand" href="#home" onclick="showPage('home');return false" aria-label="Back to portal selection"><span class="brand-mark" aria-hidden="true">c</span>campusly<span class="brand-dot" aria-hidden="true">.</span></a>
-    <div style="display:flex;align-items:center;gap:8px">
-      <button class="back-link" onclick="showPage('home')" aria-label="All portals">← All portals</button>
-      <button class="theme-toggle" id="themeToggleCollege" onclick="toggleTheme()" aria-label="Toggle dark mode" aria-pressed="false"><svg id="themeIconCollege" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
-    </div>
-  </header>
-  <div class="dashboard" id="main-content">
-    <p class="eyebrow">NORTHFIELD COLLEGE · ADMINISTRATION</p>
-    <h1>College portal</h1>
-    <p class="intro">Manage important information and keep your campus community up to date.</p>
-    <section class="info-grid" aria-label="College portal sections">
-      <article class="info-card" tabindex="0"><span class="tile-icon" aria-hidden="true">▤</span><h2>Announcements</h2><p>Publish notices and updates for students and faculty.</p><a href="#announcements" onclick="showToast('Announcements module coming soon','info')">Manage announcements <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></article>
-      <article class="info-card" tabindex="0"><span class="tile-icon amber" aria-hidden="true">▣</span><h2>Academic calendar</h2><p>Keep track of exams, holidays, events, and key dates.</p><a href="#calendar" onclick="showToast('Calendar module coming soon','info')">View academic calendar <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></article>
-      <article class="info-card" tabindex="0"><span class="tile-icon green" aria-hidden="true">♧</span><h2>Campus overview</h2><p>Review college updates and information in one place.</p><a href="#overview" onclick="showToast('Overview module coming soon','info')">Open overview <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></article>
-    </section>
-    <section class="notice-box" aria-live="polite"><b>Recent update</b><p>Mid-semester exam schedule released</p><small>Academic Office · Today</small></section>
-  </div>
-</section>
-
-<!-- Teacher page -->
-<section class="page hidden" id="teacher" role="main" aria-label="Teacher faculty portal">
-  <header class="topbar" role="banner">
-    <a class="brand small-brand" href="#home" onclick="showPage('home');return false" aria-label="Back to portal selection"><span class="brand-mark" aria-hidden="true">c</span>campusly<span class="brand-dot" aria-hidden="true">.</span></a>
-    <div style="display:flex;align-items:center;gap:8px">
-      <button class="back-link" onclick="showPage('home')" aria-label="All portals">← All portals</button>
-      <button class="theme-toggle" id="themeToggleTeacher" onclick="toggleTheme()" aria-label="Toggle dark mode" aria-pressed="false"><svg id="themeIconTeacher" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
-    </div>
-  </header>
-  <div class="dashboard" id="main-content">
-    <p class="eyebrow">NORTHFIELD COLLEGE · FACULTY</p>
-    <h1>Teacher portal</h1>
-    <p class="intro">Your classes and teaching tools for the day.</p>
-    <section class="info-grid" aria-label="Teacher portal sections">
-      <article class="info-card" tabindex="0"><span class="tile-icon" aria-hidden="true">◷</span><h2>Today's classes</h2><p>10:30 AM · Database Management Systems · Lab 3</p><a href="#classes" onclick="showToast('Schedule module coming soon','info')">View teaching schedule <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></article>
-      <article class="info-card" tabindex="0"><span class="tile-icon amber" aria-hidden="true">▤</span><h2>Assignments</h2><p>Create coursework and keep track of upcoming submissions.</p><a href="#assignments" onclick="showToast('Assignments module coming soon','info')">Manage assignments <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></article>
-      <article class="info-card" tabindex="0"><span class="tile-icon green" aria-hidden="true">✦</span><h2>Class announcements</h2><p>Share class updates with your students.</p><a href="#announcements" onclick="showToast('Announcements module coming soon','info')">Post an announcement <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></article>
-    </section>
-    <section class="notice-box" aria-live="polite"><b>Next class</b><p>Database Management Systems</p><small>10:30 AM · Lab 3 · Dr. N. Kulkarni</small></section>
-  </div>
-</section>
-
-<!-- Student page -->
-<section class="page hidden" id="student" role="main" aria-label="Student portal">
-  <header class="topbar" role="banner">
-    <a class="brand small-brand" href="#home" onclick="showPage('home');return false" aria-label="Back to portal selection"><span class="brand-mark" aria-hidden="true">c</span>campusly<span class="brand-dot" aria-hidden="true">.</span></a>
-    <div style="display:flex;align-items:center;gap:8px">
-      <button class="back-link" onclick="showPage('home')" aria-label="All portals">← All portals</button>
-      <button class="theme-toggle" id="themeToggleStudent" onclick="toggleTheme()" aria-label="Toggle dark mode" aria-pressed="false"><svg id="themeIconStudent" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
-    </div>
-  </header>
-  <div class="dashboard" id="main-content">
-    <p class="eyebrow">NORTHFIELD COLLEGE · STUDENT</p>
-    <h1>Good morning, Aarav</h1>
-    <p class="intro">Here's what's happening on campus today.</p>
-    <section class="stats-row" aria-label="Student statistics">
-      <article class="stat"><small>Attendance</small><b>92%</b><span>75% required</span></article>
-      <article class="stat"><small>Assignments due</small><b>04</b><span>2 due this week</span></article>
-      <article class="stat"><small>Next exam</small><b>8 days</b><span>Data Structures · Oct 22</span></article>
-    </section>
-    <section class="info-grid" aria-label="Student portal sections">
-      <article class="info-card" tabindex="0"><span class="tile-icon" aria-hidden="true">▦</span><h2>Today's timetable</h2><p>9:00 AM · Data Structures<br>10:30 AM · Database Management</p><a href="#timetable" onclick="showToast('Timetable module coming soon','info')">View timetable <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></article>
-      <article class="info-card" tabindex="0"><span class="tile-icon amber" aria-hidden="true">▤</span><h2>Latest notices</h2><p>Mid-semester exam schedule released.</p><a href="#notices" onclick="showToast('Notices module coming soon','info')">Read college notices <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></article>
-      <article class="info-card" tabindex="0"><span class="tile-icon green" aria-hidden="true">☑</span><h2>Upcoming deadlines</h2><p>DBMS Project — Phase 1 · Due 16 October</p><a href="#deadlines" onclick="showToast('Deadlines module coming soon','info')">View assignments <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></article>
-    </section>
-    <section class="notice-box" aria-live="polite"><b>Campusly AI</b><p>Need help with your college information?</p><small>Try: "Mera next practical kab hai?"</small></section>
-  </div>
-</section>
-
-<!-- Mobile bottom navigation -->
-<nav class="mobile-nav" role="navigation" aria-label="Mobile navigation" id="mobileNav">
-  <div class="mobile-nav-inner">
-    <button class="mobile-nav-btn" data-page="home" onclick="showPage('home')" aria-label="Home">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      Home
-    </button>
-    <button class="mobile-nav-btn" data-page="college" onclick="showPage('college')" aria-label="College portal">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-      College
-    </button>
-    <button class="mobile-nav-btn" data-page="teacher" onclick="showPage('teacher')" aria-label="Teacher portal">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-      Teacher
-    </button>
-    <button class="mobile-nav-btn" data-page="student" onclick="showPage('student')" aria-label="Student portal">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      Student
-    </button>
-  </div>
-</nav>
 
 <!-- Toast container -->
 <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
 
+<style>
+.toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 2000; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+.toast { background: var(--bg-white); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 18px; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 12px; min-width: 280px; max-width: 360px; pointer-events: auto; animation: slideIn 0.3s ease; }
+.toast.info { border-left: 4px solid var(--primary); }
+@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+</style>
+
 <script>
-// ===== STATE MANAGEMENT =====
-const STATE_KEY = 'campusly_state';
-const THEME_KEY = 'campusly_theme';
+const THEME_KEY = 'educampus_theme';
+const PAGE_KEY = 'educampus_page';
 
-function getInitialState(){
-  const saved = localStorage.getItem(STATE_KEY);
-  const hash = window.location.hash.slice(1);
-  const validPages = ['home','college','teacher','student'];
+function showPage(pageId) {
+  const pages = ['home', 'student', 'faculty', 'admin', 'events', 'library', 'finance', 'profile'];
+  if (!pages.includes(pageId)) pageId = 'home';
 
-  if(hash && validPages.includes(hash)) return hash;
-  if(saved && validPages.includes(saved)) return saved;
-  return 'home';
-}
+  document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+  document.getElementById(pageId + '-page').classList.remove('hidden');
 
-function getInitialTheme(){
-  const saved = localStorage.getItem(THEME_KEY);
-  if(saved) return saved;
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-}
-
-// ===== THEME =====
-function applyTheme(theme){
-  document.documentElement.setAttribute('data-theme', theme);
-  localStorage.setItem(THEME_KEY, theme);
-  updateThemeIcons(theme === 'dark');
-}
-
-function toggleTheme(){
-  const current = document.documentElement.getAttribute('data-theme') || 'light';
-  applyTheme(current === 'dark' ? 'light' : 'dark');
-}
-
-function updateThemeIcons(isDark){
-  const iconSvg = isDark
-    ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'
-    : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
-  document.querySelectorAll('[id^="themeIcon"]').forEach(el => el.outerHTML = iconSvg);
-  document.querySelectorAll('[id^="themeToggle"]').forEach(btn => btn.setAttribute('aria-pressed', isDark));
-}
-
-// ===== NAVIGATION =====
-let currentPage = getInitialState();
-
-function showPage(pageId){
-  const validPages = ['home','college','teacher','student'];
-  if(!validPages.includes(pageId)) pageId = 'home';
-
-  currentPage = pageId;
-  localStorage.setItem(STATE_KEY, pageId);
-  window.location.hash = pageId === 'home' ? '' : pageId;
-
-  document.getElementById('home').classList.toggle('hidden', pageId !== 'home');
-  document.querySelectorAll('.page').forEach(page => {
-    page.classList.toggle('hidden', page.id !== pageId);
+  // Update header active state
+  document.querySelectorAll('.nav-link').forEach(l => {
+    l.classList.toggle('active', l.getAttribute('href') === '#' + pageId);
   });
 
-  updateMobileNav(pageId);
+  // Hide header on portal pages if needed, but here we keep it for now
+  document.getElementById('siteHeader').classList.toggle('hidden', pageId !== 'home' && window.innerWidth < 768);
+
+  localStorage.setItem(PAGE_KEY, pageId);
+  window.location.hash = pageId;
   window.scrollTo(0, 0);
-
-  // Focus management for accessibility
-  const mainContent = document.getElementById('main-content');
-  if(mainContent && pageId !== 'home'){
-    mainContent.focus({preventScroll: true});
-  }
 }
 
-function navigatePortal(portal){
-  showPage(portal);
-}
-
-function handlePortalKeydown(event, portal){
-  if(event.key === 'Enter' || event.key === ' '){
-    event.preventDefault();
-    navigatePortal(portal);
-  }
-}
-
-function updateMobileNav(activePage){
-  document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.page === activePage);
-    btn.setAttribute('aria-current', btn.dataset.page === activePage ? 'page' : 'false');
-  });
-}
-
-// ===== TOAST NOTIFICATIONS =====
-function showToast(message, type = 'info'){
+function showToast(message, type = 'info') {
   const container = document.getElementById('toastContainer');
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
-  toast.setAttribute('role', 'alert');
-  toast.innerHTML = `<span>${message}</span><button onclick="dismissToast(this)" aria-label="Dismiss" style="margin-left:auto;background:none;border:none;color:inherit;font-size:18px;line-height:1;cursor:pointer;padding:4px">✕</button>`;
+  toast.innerHTML = `<span>${message}</span>`;
   container.appendChild(toast);
-
-  setTimeout(() => dismissToast(toast.querySelector('button')), 5000);
+  setTimeout(() => toast.remove(), 4000);
 }
 
-function dismissToast(btn){
-  const toast = btn.closest('.toast');
-  if(toast){
-    toast.classList.add('hiding');
-    toast.addEventListener('animationend', () => toast.remove());
-  }
-}
+function init() {
+  const savedPage = window.location.hash.slice(1) || localStorage.getItem(PAGE_KEY) || 'home';
+  showPage(savedPage);
 
-// ===== INITIALIZATION =====
-function init(){
-  applyTheme(getInitialTheme());
-  // Force white theme on load as requested
-  applyTheme('light');
-  showPage(currentPage);
-
-  // Handle hash changes (browser back/forward)
   window.addEventListener('hashchange', () => {
     const hash = window.location.hash.slice(1);
-    if(hash && ['college','teacher','student','home'].includes(hash)){
-      showPage(hash);
-    }else if(!hash){
-      showPage('home');
-    }
+    if (hash) showPage(hash);
   });
-
-  // Keyboard shortcuts
-  document.addEventListener('keydown', (e) => {
-    if(e.altKey || e.ctrlKey || e.metaKey) return;
-    const shortcuts = {'1':'college','2':'teacher','3':'student','0':'home','Escape':'home'};
-    if(shortcuts[e.key]){
-      e.preventDefault();
-      showPage(shortcuts[e.key]);
-    }
-  });
-
-  // Register service worker for PWA
-  if('serviceWorker' in navigator){
-    navigator.serviceWorker.register('sw.js').catch(() => {});
-  }
 }
 
-if(document.readyState === 'loading'){
-  document.addEventListener('DOMContentLoaded', init);
-}else{
-  init();
-}
+document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
 </html>
